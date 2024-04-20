@@ -1,11 +1,36 @@
 import socket
 import threading
+import requests
 
-# Global variables to store clients and groups
+# Global variables
 clients = {}
 groups = {}
 
-# Function to handle client connections
+# Send private messages to the backend
+def private_message_to_backend(message, recipient, sender):
+    url = "http://localhost:5000/api/private_messages"
+    data = {"message": message, "recipient": recipient, "sender": sender}
+    requests.post(url, json=data)
+
+# Create groups in the backend
+def create_group_to_backend(group_name, sender):
+    url = "http://localhost:5000/api/groups"
+    data = {"group_name": group_name, "sender": sender}
+    requests.post(url, json=data)
+
+# Join groups in the backend
+def join_group_to_backend(group_name, sender):
+    url = "http://localhost:5000/api/groups/join"
+    data = {"group_name": group_name, "sender": sender}
+    requests.post(url, json=data)
+
+# Send group messages to the backend
+def group_message_to_backend(message, group_name, sender):
+    url = "http://localhost:5000/api/group_messages"
+    data = {"message": message, "group_name": group_name, "sender": sender}
+    requests.post(url, json=data)
+
+# Handle client connections
 def handle_client(client_socket, client_address):
     print(f"Connection from {client_address}")
     client_socket.send("Welcome to the chat server. Enter your name: ".encode())
@@ -20,6 +45,7 @@ def handle_client(client_socket, client_address):
                 recipient = recipient[9:]
                 if recipient in clients:
                     clients[recipient].send(f"[Private from {client_name}]: {private_message}".encode())
+                    private_message_to_backend(private_message, recipient, client_name)
                 else:
                     client_socket.send("Recipient not found.".encode())
             elif message.startswith("/creategroup"):
@@ -27,11 +53,13 @@ def handle_client(client_socket, client_address):
                 groups[group_name] = []
                 groups[group_name].append(client_name)
                 client_socket.send(f"Group '{group_name}' created.".encode())
+                create_group_to_backend(group_name, client_name)
             elif message.startswith("/joingroup"):
                 group_name = message.split(" ")[1]
                 if group_name in groups:
                     groups[group_name].append(client_name)
                     client_socket.send(f"Joined group '{group_name}'.".encode())
+                    join_group_to_backend(group_name, client_name)
                 else:
                     client_socket.send("Group not found.".encode())
             elif message.startswith("/group"):
@@ -40,6 +68,7 @@ def handle_client(client_socket, client_address):
                 if group_name in groups:
                     for member in groups[group_name]:
                         clients[member].send(f"[{group_name}] {client_name}: {group_message}".encode())
+                        group_message_to_backend(group_message, group_name, client_name)
                 else:
                     client_socket.send("Group not found.".encode())
             else:
@@ -52,29 +81,12 @@ def handle_client(client_socket, client_address):
             client_socket.close()
             break
 
-# Function for debugging purposes
-def debug():
-    while True:
-        message = input()
-        if message == "clients":
-            for name, socket in clients.items():
-                print(f"Client '{name}': {socket}")
-            print(f"Total clients: {len(clients)}")
-        elif message == "groups":
-            for name, members in groups.items():
-                print(f"Group '{name}': {members}")
-            print(f"Total groups: {len(groups)}")
-
 # Start the server
 def start_server(host, port):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.bind((host, port))
     server_socket.listen(5)
     print(f"Server listening on {host}:{port}")
-
-    # Start thread for debugging
-    debug_thread = threading.Thread(target=debug)
-    debug_thread.start()
 
     while True:
         client_socket, client_address = server_socket.accept()
