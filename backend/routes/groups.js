@@ -1,7 +1,15 @@
 const express = require('express');
-
 const router = express.Router();
 
-router.get('/', (req, res) => {
-    res.send('API is running....');
-});
+const {
+    getallGroups,
+    createGroup,
+    removeGroup
+} = require('../controllers/group');
+
+
+router.get('/', getallGroups);
+router.post('/', createGroup);
+
+
+module.exports = router;
