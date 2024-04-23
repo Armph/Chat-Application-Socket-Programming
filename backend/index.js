@@ -13,6 +13,18 @@ app.use(cors());
 
 const clients = {};
 const groups = [];
+const messages = {};
+/*
+messages Schema {
+    socketId: {
+        socketId: {
+            from: socketId,
+            msg: message
+        }
+    }
+}
+*/
+
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -21,23 +33,34 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         delete clients[socket.id];
-        io.emit('user disconnected', socket.id);
+        io.emit('user disconnected', Object(clients));
+        //io.emit('user disconnected', socket.id);
     });
     socket.on('set-name', (name) => {
         clients[socket.id] = name;
+        console.log(clients)
         io.emit('user connected', Object(clients));
     });
-    socket.on('private message', (msg) => {
-        if (msg.msg == 'debug') {
-            console.log('clients:', clients);
-            console.log('groups:', groups);
+    socket.on('private message', (payload) => {
+        if (messages[payload.to] === undefined) {
+            messages[payload.to] = {};
         }
-        if (msg.to == socket.id) {
-            io.to(socket.id).emit('private message', 'You: ' + msg.msg);
-        } else {
-            io.to(msg.to).emit('private message', clients[socket.id] + ': ' + msg.msg);
-            io.to(socket.id).emit('private message', 'You: ' + msg.msg);
+        if (messages[payload.to][socket.id] === undefined) {
+            messages[payload.to][socket.id] = [];
         }
+        messages[payload.to][socket.id].push({from: socket.id, msg: payload.msg});
+        if (messages[socket.id] === undefined) {
+            messages[socket.id] = {};
+        }
+        if (messages[socket.id][payload.to] === undefined) {
+            messages[socket.id][payload.to] = [];
+        }
+        if (socket.id !== payload.to) {
+            messages[socket.id][payload.to].push({from: socket.id, msg: payload.msg});
+        }
+        console.log("messages:", messages[payload.to]);
+        io.to(payload.to).emit('private message', messages[payload.to]);
+        io.to(socket.id).emit('private message', messages[socket.id]);
     });
     socket.on('chat message', (msg) => {
         if (msg == 'debug') {

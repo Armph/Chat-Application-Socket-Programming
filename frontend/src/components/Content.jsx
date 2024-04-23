@@ -8,7 +8,7 @@ import InfoContainer from "./InfoContainer";
 import CreateGroupChat from "./CreateGroupchat";
 
 
-export default function Content({ chat, setChat, btn, setBtn}) {
+export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg }) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
@@ -26,6 +26,10 @@ export default function Content({ chat, setChat, btn, setBtn}) {
     setOnViewer(false);
   };
 
+  function handleText() {
+    setSavedText(text);
+  }
+
   return (
     <div className={chat ? "content active" : "content"}>
       {!btn && !chat ? (
@@ -36,7 +40,7 @@ export default function Content({ chat, setChat, btn, setBtn}) {
       {chat && !btn ? (
         <div className="wrapper">
           <div className="top">
-            <Avatar username={"Marc"} height={45} width={45} />
+            <Avatar username={selectedDestName} height={45} width={45} />
             <div
               className="app-icon menu-icon"
               onClick={() => setOnMenu((prev) => !prev)}
@@ -47,8 +51,6 @@ export default function Content({ chat, setChat, btn, setBtn}) {
                   <span className="menu-item" onClick={() => setChat(false)}>
                     Close Chat
                   </span>
-                  <span className="menu-item">Delete Messages</span>
-                  <span className="menu-item">Delete Chat</span>
                 </div>
               )}
             </div>
@@ -60,11 +62,12 @@ export default function Content({ chat, setChat, btn, setBtn}) {
               </div>
             ) : (
               <div className="messages-wrapper">
-                {messages.map((msg) => (
+
+                {chatMsg[selectedChat] && chatMsg[selectedChat].map((e, idx) => (
                   <Message
-                    key={msg?.id}
-                    msg={msg}
-                    owner={msg?.owner}
+                    key={idx}
+                    owner={e.from === socket}
+                    msg={e.msg}
                     openImageViewer={openImageViewer}
                   />
                 ))}
@@ -73,7 +76,7 @@ export default function Content({ chat, setChat, btn, setBtn}) {
           </div>
           <div className="bottom">
             <textarea placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)}/>
-            <div className="app-icon" onClick={() => {setSavedText(text);setText('');}}>
+            <div className="app-icon" onClick={() => {sendPrivateMessage(text); setText('')}}>
               <i className="fa-solid fa-paper-plane"></i>
             </div>
           </div>
