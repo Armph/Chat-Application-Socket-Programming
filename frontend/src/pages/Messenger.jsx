@@ -12,15 +12,10 @@ export default function Messenger() {
     setChat(false);
   }
 
-  const allFalse = () => {
-    setBtn(false);
-    setChat(false);
-  }
-
   return (
     <div className="messenger">
       <Sidebar setChat={setChat} handleBtn ={handleBtn} setBtn={setBtn} btn = {btn}/>
-      <Content chat={chat} setChat={setChat} btn ={btn} setBtn={setBtn} allFalse = {allFalse}/>
+      <Content chat={chat} setChat={setChat} btn ={btn} setBtn={setBtn} />
     </div>
   );
 }

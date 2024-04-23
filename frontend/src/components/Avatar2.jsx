@@ -1,5 +1,5 @@
-import { useState } from "react";
 import NoAvatar from "../assets/images/noavatar.png";
+import React , {useState} from "react";
 
 export default function Avatar2({ src, username, height, width }) {
   const [add,setAdd] = useState(false);
