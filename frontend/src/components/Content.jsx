@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import "../assets/css/content.css";
 import Avatar from "./Avatar";
 import Message from "./Message";
@@ -25,6 +25,11 @@ export default function Content({ chat, setChat, btn, setBtn}) {
     setMsgImages([]);
     setOnViewer(false);
   };
+
+  useEffect(() => {
+    console.log("Saved message:", savedText);
+  }, [savedText]);
+
 
   return (
     <div className={chat ? "content active" : "content"}>

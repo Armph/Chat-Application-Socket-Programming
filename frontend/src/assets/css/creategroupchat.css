@@ -21,11 +21,63 @@ input[type=text], select {
     cursor: pointer;
   }
 
+  .wrapper .center {
+    padding-top: 25px;
+    padding-right: 30px;
+    padding-bottom: 25px;
+    padding-left: 60px;
+    margin: 0px;
+  }
+
   .wrapper .top .title {
-    font-size: 25px;
+    font-size: 30px;
     text-align: center;
   }
 
   .wrapper .center .label {
-    font-size: 22px;
+    font-size: 25px;
+  }
+
+  .wrapper .center .scroll-container {
+    width: 300px; /* Width of the container */
+    height: 300px; /* Height of the container */
+    overflow-y: scroll; /* Enable vertical scrollbar */
+    border: 1px solid #ccc; /* Border for visualization */
+    display: flex;
+    flex-direction: row;
+  }
+  
+  /* Style for the content inside the container */
+  .wrapper .center .scroll-content {
+    width: 100%; /* Width of the content (full width of container) */
+    /* Add more styling as needed */
+  }
+
+   .avatar-wrapper {
+    height: 150px;
+    width: 150px;
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  .avatar-wrapper i {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.3rem;
+    font-size: 1.2rem;
+    border-radius: 0.5rem;
+    color: var(--black);
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+  
+  .avatar-wrapper i:hover {
+    color: var(--blue);
+    background-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .label {
+      margin: 7px;
   }
