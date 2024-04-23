@@ -6,12 +6,15 @@ import { SeedMessages } from "../data/Messages";
 import ImageSlider from "./ImageSlider";
 import InfoContainer from "./InfoContainer";
 import CreateGroupChat from "./CreateGroupchat";
+import CreateGroupChat from "./CreateGroupchat";
 
-export default function Content({ chat, setChat, btn}) {
+export default function Content({ chat, setChat, btn, setBtn}) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
   const [msgImages, setMsgImages] = useState([]);
+  const [text,setText] = useState('');
+  const [savedText,setSavedText] = useState('');
 
   const openImageViewer = (images) => {
     setMsgImages(images);
@@ -25,6 +28,12 @@ export default function Content({ chat, setChat, btn}) {
 
   return (
     <div className={chat ? "content active" : "content"}>
+      {!btn && !chat ? (
+        <InfoContainer/> ) : (
+          <div></div>
+        )
+      }
+      {chat && !btn ? (
       {!btn && !chat ? (
         <InfoContainer/> ) : (
           <div></div>
@@ -69,11 +78,8 @@ export default function Content({ chat, setChat, btn}) {
             )}
           </div>
           <div className="bottom">
-            <div className="app-icon">
-              <i className="fa-solid fa-image"></i>
-            </div>
-            <textarea placeholder="Write a message" />
-            <div className="app-icon">
+            <textarea placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)}/>
+            <div className="app-icon" onClick={() => {setSavedText(text);setText('');}}>
               <i className="fa-solid fa-paper-plane"></i>
             </div>
           </div>
@@ -83,7 +89,7 @@ export default function Content({ chat, setChat, btn}) {
         )
       }
       {btn && !chat? (
-        <CreateGroupChat/>
+        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
       ) : (
         <div></div>
       )

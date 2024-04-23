@@ -1,11 +1,12 @@
 input[type=text], select {
     width: 80%;
-    padding: 12px 20px;
+    padding: 15px 30px;
     margin: 8px 0;
     display: inline-block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 16px;
   }
 .wrapper .bottom .button {
     background-color: var(--blue);
@@ -18,4 +19,13 @@ input[type=text], select {
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
+  }
+
+  .wrapper .top .title {
+    font-size: 25px;
+    text-align: center;
+  }
+
+  .wrapper .center .label {
+    font-size: 22px;
   }
