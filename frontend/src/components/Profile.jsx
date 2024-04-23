@@ -37,9 +37,7 @@ export default function Profile({ open, setOpen }) {
             <div className="avatar-wrapper">
               <Avatar height={150} width={150} />
             </div>
-            <span className="username">Name Surname</span>
-            <span className="email">mail@email.com</span>
-            <p className="status">some description</p>
+            <span className="username">Name </span>
             <button className="edit-btn" onClick={() => setOnEdit(true)}>
               <i className="fa-solid fa-pen-to-square"></i>Profile
             </button>

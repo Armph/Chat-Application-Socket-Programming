@@ -7,11 +7,12 @@ import ImageSlider from "./ImageSlider";
 import InfoContainer from "./InfoContainer";
 import CreateGroupChat from "./CreateGroupchat";
 
-export default function Content({ chat, setChat, btn}) {
+export default function Content({ chat, setChat, btn, setBtn}) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
   const [msgImages, setMsgImages] = useState([]);
+  const [text,setText] = useState('');
 
   const openImageViewer = (images) => {
     setMsgImages(images);
@@ -69,11 +70,8 @@ export default function Content({ chat, setChat, btn}) {
             )}
           </div>
           <div className="bottom">
-            <div className="app-icon">
-              <i className="fa-solid fa-image"></i>
-            </div>
-            <textarea placeholder="Write a message" />
-            <div className="app-icon">
+            <textarea placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)}/>
+            <div className="app-icon" onClick={() => setText('')}>
               <i className="fa-solid fa-paper-plane"></i>
             </div>
           </div>
@@ -83,7 +81,7 @@ export default function Content({ chat, setChat, btn}) {
         )
       }
       {btn && !chat? (
-        <CreateGroupChat/>
+        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
       ) : (
         <div></div>
       )

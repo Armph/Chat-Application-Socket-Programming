@@ -1,7 +1,7 @@
 import React from "react";
 import "../assets/css/creategroupchat.css"
 
-export default function CreateGroupChat() {
+export default function CreateGroupChat(setChat , setBtn) {
     return (
         <div className="wrapper">
             <div className="top">
@@ -14,7 +14,7 @@ export default function CreateGroupChat() {
                 <div className="label"> Member </div>
             </div>
             <div className="bottom">
-                <button className="button">Cancel</button>
+                <button className="button" onClick={() => {  }}>Cancel</button>
                 <button className="button">Confirm</button>
             </div>
         </div>
