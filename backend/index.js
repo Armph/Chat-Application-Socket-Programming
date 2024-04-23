@@ -2,17 +2,17 @@ const express = require('express');
 const { createServer } = require('node:http');
 const { join } = require('node:path');
 const { Server } = require('socket.io');
+const path = require('path');
+const cors = require('cors');
 
 const app = express();
 const server = createServer(app);
-const io = new Server(server);
+const io = require('socket.io')(server, {cors: {origin: "*"}});
+
+app.use(cors());
 
 const clients = {};
 const groups = [];
-
-app.get('/', (req, res) => {
-    res.sendFile(join(__dirname, 'test.html'));
-});
 
 io.on('connection', (socket) => {
     console.log('a user connected:', socket.id);
@@ -56,7 +56,9 @@ io.on('connection', (socket) => {
         socket.join(msg.name);
     })
 
-
+    socket.on('test', (msg) => {
+        console.log(msg);
+    });
 });
 
 const PORT = process.env.PORT || 5000;

@@ -5,6 +5,8 @@
   color: var(--white);
 }
 
+
+
 .sidebar .wrapper {
   display: flex;
   flex-direction: column;
@@ -127,6 +129,47 @@
 .chat-item-infos .avatar-infos .timeline {
   font-size: 12px;
   color: lightgray;
+}
+
+.sidebar .wrapper .private-chat-header {
+  height: 40px;
+  width: 100%;
+  background-color: var(--bg-light);
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar .wrapper .group-chat-header {
+  height: 40px;
+  width: 100%;
+  background-color: var(--bg-light);
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar .wrapper .chat-list {
+  height: 300px;
+  width: 100%;
+  background-color: lightgray;
+  font-size: 20px;
+  text-align: center;
+}
+
+.sidebar .wrapper .scroll-container {
+  width: 100%; /* Width of the container */
+  height: 300px; /* Height of the container */
+  overflow-y: scroll; /* Enable vertical scrollbar */
+  border: 1px solid #ccc; /* Border for visualization */
+}
+
+/* Style for the content inside the container */
+.sidebar .wrapper .scroll-content {
+  width: 100%; /* Width of the content (full width of container) */
+  /* Add more styling as needed */
 }
 
 @media (max-width: 820px){

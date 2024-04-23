@@ -21,8 +21,7 @@ export default function Profile({ open, setOpen }) {
               <i className="fa-solid fa-camera"></i>
             </div>
             <form onSubmit={() => {}} className="profile-form">
-              <input type="text" placeholder="Username" />
-              <textarea type="text" placeholder="Write something about you." />
+              <input type="text" placeholder="Name" />
               <div className="profile-actions">
                 <button onClick={() => setOnEdit(false)} className="cancel-btn">
                   Cancel
