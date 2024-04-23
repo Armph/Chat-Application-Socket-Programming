@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import "../assets/css/content.css";
 import Avatar from "./Avatar";
 import Message from "./Message";
@@ -15,6 +15,13 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
   const [msgImages, setMsgImages] = useState([]);
   const [text,setText] = useState('');
   const [savedText,setSavedText] = useState('');
+  const colors = ['DarkSlateBlue', 'MediumAquaMarine', 'LightPink', 'salmon'];
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+  const handleColor = () => {
+    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+    setCurrentColorIndex(nextColorIndex);
+  };
 
   const openImageViewer = (images) => {
     setMsgImages(images);
@@ -26,6 +33,10 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
     setOnViewer(false);
   };
 
+  useEffect(() => {
+    console.log("Saved message:", savedText);
+  }, [savedText]);
+
   function handleText() {
     setSavedText(text);
   }
@@ -36,6 +47,12 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
         <InfoContainer/> ) : (
           <div></div>
         )
+      }
+      {btn && !chat? (
+        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
+      ) : (
+        <div></div>
+      )
       }
       {chat && !btn ? (
         <div className="wrapper">
@@ -50,6 +67,9 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
                 <div className="menu-wrapper">
                   <span className="menu-item" onClick={() => setChat(false)}>
                     Close Chat
+                  </span>
+                  <span className="menu-item" onClick={() => handleColor()} >
+                    Change colors
                   </span>
                 </div>
               )}
@@ -69,6 +89,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
                     owner={e.from === socket}
                     msg={e.msg}
                     openImageViewer={openImageViewer}
+                    backgroundColor = {colors[currentColorIndex]}
                   />
                 ))}
               </div>
@@ -84,12 +105,6 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
       ) :  (
           <div></div>
         )
-      }
-      {btn && !chat? (
-        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
-      ) : (
-        <div></div>
-      )
       }
 
     </div>
