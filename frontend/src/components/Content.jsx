@@ -6,6 +6,7 @@ import { SeedMessages } from "../data/Messages";
 import ImageSlider from "./ImageSlider";
 import InfoContainer from "./InfoContainer";
 import CreateGroupChat from "./CreateGroupchat";
+import CreateGroupChat from "./CreateGroupchat";
 
 export default function Content({ chat, setChat, btn, setBtn}) {
   const [onMenu, setOnMenu] = useState(false);
@@ -27,6 +28,12 @@ export default function Content({ chat, setChat, btn, setBtn}) {
 
   return (
     <div className={chat ? "content active" : "content"}>
+      {!btn && !chat ? (
+        <InfoContainer/> ) : (
+          <div></div>
+        )
+      }
+      {chat && !btn ? (
       {!btn && !chat ? (
         <InfoContainer/> ) : (
           <div></div>

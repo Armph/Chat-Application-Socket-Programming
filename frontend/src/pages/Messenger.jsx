@@ -10,7 +10,14 @@ export default function Messenger() {
   const handleBtn = () => {
     setBtn(!btn);
     setChat(false);
-  } 
+  }
+
+  const [btn ,setBtn] = useState(false);
+
+  const handleBtn = () => {
+    setBtn(!btn);
+    setChat(false);
+  }
 
   return (
     <div className="messenger">
