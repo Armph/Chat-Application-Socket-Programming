@@ -15,6 +15,13 @@ export default function Content({ chat, setChat, btn, setBtn}) {
   const [msgImages, setMsgImages] = useState([]);
   const [text,setText] = useState('');
   const [savedText,setSavedText] = useState('');
+  const colors = ['DarkSlateBlue', 'MediumAquaMarine', 'LightPink', 'salmon'];
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+
+  const handleColor = () => {
+    const nextColorIndex = (currentColorIndex + 1) % colors.length;
+    setCurrentColorIndex(nextColorIndex);
+  };
 
   const openImageViewer = (images) => {
     setMsgImages(images);
@@ -58,8 +65,9 @@ export default function Content({ chat, setChat, btn, setBtn}) {
                   <span className="menu-item" onClick={() => setChat(false)}>
                     Close Chat
                   </span>
-                  <span className="menu-item">Delete Messages</span>
-                  <span className="menu-item">Delete Chat</span>
+                  <span className="menu-item" onClick={() => handleColor()} >
+                    Change colors
+                  </span>
                 </div>
               )}
             </div>
@@ -77,6 +85,7 @@ export default function Content({ chat, setChat, btn, setBtn}) {
                     msg={msg}
                     owner={msg?.owner}
                     openImageViewer={openImageViewer}
+                    backgroundColor = {colors[currentColorIndex]}
                   />
                 ))}
               </div>

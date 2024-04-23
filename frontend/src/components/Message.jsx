@@ -1,9 +1,10 @@
 import "../assets/css/message.css";
 
-export default function Message({ owner, msg, openImageViewer }) {
+export default function Message({ owner, msg, openImageViewer,backgroundColor}) {
   return (
     <div className={owner ? "message owner" : "message"}>
-      <div className="message-wrapper">
+      <span className="name">Name</span>
+      <div className="message-wrapper" style={{backgroundColor: backgroundColor}}>
         {msg?.images.length > 0 && (
           <div
             className="image-wrapper"
