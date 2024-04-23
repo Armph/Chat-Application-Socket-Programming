@@ -2,8 +2,16 @@ import { useState } from "react";
 import "../assets/css/profile.css";
 import Avatar from "./Avatar";
 
-export default function Profile({ open, setOpen }) {
+export default function Profile({ open, setOpen, setName, myName }) {
   const [onEdit, setOnEdit] = useState(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const name = e.target[0].value;
+    setName(name);
+    setOnEdit(false);
+  }
+
   return (
     <div className={open ? "profile active" : "profile"}>
       <div className="profile-wrapper">
@@ -20,7 +28,7 @@ export default function Profile({ open, setOpen }) {
               <Avatar height={150} width={150} />
               <i className="fa-solid fa-camera"></i>
             </div>
-            <form onSubmit={() => {}} className="profile-form">
+            <form onSubmit={handleSubmit} className="profile-form">
               <input type="text" placeholder="Name" />
               <div className="profile-actions">
                 <button onClick={() => setOnEdit(false)} className="cancel-btn">
@@ -37,7 +45,7 @@ export default function Profile({ open, setOpen }) {
             <div className="avatar-wrapper">
               <Avatar height={150} width={150} />
             </div>
-            <span className="username">Name </span>
+            <span className="username">{myName}</span>
             <button className="edit-btn" onClick={() => setOnEdit(true)}>
               <i className="fa-solid fa-pen-to-square"></i>Profile
             </button>

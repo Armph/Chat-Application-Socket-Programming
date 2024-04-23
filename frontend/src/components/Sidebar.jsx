@@ -7,11 +7,10 @@ import ContactItem from "./ContactItem";
 import Profile from "./Profile";
 
 
-export default function Sidebar({ setChat , handleBtn ,setBtn , btn }) {
+export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom }) {
 
   const [newChat, setNewChat] = useState(false);
   const [onProfile, setOnProfile] = useState(false);
-  const [users, setUsers] = useState([]);
 
   // function userjoinHander() {
   //   setUsers(users + new_user)
@@ -19,13 +18,13 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn }) {
 
   return (
     <div className="sidebar">
-      <Profile open={onProfile} setOpen={setOnProfile} />
+      <Profile open={onProfile} setOpen={setOnProfile} setName={setName} myName={myName} />
       <div className="wrapper">
         <div className="top">
             <div style={{cursor: "pointer"}} onClick={() => setOnProfile(true)}>
               <Avatar src="" height={45} width={45} />
             </div>
-            <span className="heading">Name</span>
+            <span className="heading">{myName}</span>
             <div className={btn ? "app-icon active" : "app-icon"} onClick={() => {
               handleBtn();;
             }}>
@@ -37,9 +36,11 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn }) {
         </div>
         <div className="scroll-container">
           <div className="scroll-content">
-              {[...Array(7)].map((contact, index) => (
-                 <ChatItem setChat={setChat} setBtn={setBtn} key={index} />
-              ))}
+            {//users is obj
+              Object.keys(users).map((socketId, name) => (
+                <ChatItem setChat={setChat} setBtn={setBtn} key={socketId} name={users[socketId]} socketId={socketId} setSelectedChatRoom={setSelectedChatRoom} />
+            ))
+            }
           </div>
         </div>
         <div className="group-chat-header">
