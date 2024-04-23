@@ -5,8 +5,9 @@ import Message from "./Message";
 import { SeedMessages } from "../data/Messages";
 import ImageSlider from "./ImageSlider";
 import InfoContainer from "./InfoContainer";
+import CreateGroupChat from "./CreateGroupchat";
 
-export default function Content({ chat, setChat }) {
+export default function Content({ chat, setChat, btn}) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
@@ -24,7 +25,12 @@ export default function Content({ chat, setChat }) {
 
   return (
     <div className={chat ? "content active" : "content"}>
-      {chat ? (
+      {!btn && !chat ? (
+        <InfoContainer/> ) : (
+          <div></div>
+        )
+      }
+      {chat && !btn ? (
         <div className="wrapper">
           <div className="top">
             <Avatar username={"Marc"} height={45} width={45} />
@@ -72,9 +78,17 @@ export default function Content({ chat, setChat }) {
             </div>
           </div>
         </div>
+      ) :  (
+          <div></div>
+        )
+      }
+      {btn && !chat? (
+        <CreateGroupChat/>
       ) : (
-        <InfoContainer />
-      )}
+        <div></div>
+      )
+      }
+
     </div>
   );
 }

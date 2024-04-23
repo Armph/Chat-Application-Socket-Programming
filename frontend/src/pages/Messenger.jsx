@@ -5,10 +5,17 @@ import Sidebar from "../components/Sidebar";
 
 export default function Messenger() {
   const [chat, setChat] = useState(false);
+  const [btn ,setBtn] = useState(false);
+
+  const handleBtn = () => {
+    setBtn(!btn);
+    setChat(false);
+  } 
+
   return (
     <div className="messenger">
-      <Sidebar setChat={setChat} />
-      <Content chat={chat} setChat={setChat} />
+      <Sidebar setChat={setChat} handleBtn ={handleBtn} setBtn={setBtn} btn = {btn}/>
+      <Content chat={chat} setChat={setChat} btn ={btn}/>
     </div>
   );
 }
