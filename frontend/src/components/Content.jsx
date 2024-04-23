@@ -13,6 +13,7 @@ export default function Content({ chat, setChat, btn, setBtn}) {
   const [messages, setMessages] = useState(SeedMessages);
   const [msgImages, setMsgImages] = useState([]);
   const [text,setText] = useState('');
+  const [savedText,setSavedText] = useState('');
 
   const openImageViewer = (images) => {
     setMsgImages(images);
@@ -71,7 +72,7 @@ export default function Content({ chat, setChat, btn, setBtn}) {
           </div>
           <div className="bottom">
             <textarea placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)}/>
-            <div className="app-icon" onClick={() => setText('')}>
+            <div className="app-icon" onClick={() => {setSavedText(text);setText('');}}>
               <i className="fa-solid fa-paper-plane"></i>
             </div>
           </div>
