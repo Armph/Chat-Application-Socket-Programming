@@ -38,6 +38,12 @@ export default function Content({ chat, setChat, btn, setBtn}) {
           <div></div>
         )
       }
+      {btn && !chat? (
+        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
+      ) : (
+        <div></div>
+      )
+      }
       {chat && !btn ? (
         <div className="wrapper">
           <div className="top">
@@ -86,12 +92,6 @@ export default function Content({ chat, setChat, btn, setBtn}) {
       ) :  (
           <div></div>
         )
-      }
-      {btn && !chat? (
-        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
-      ) : (
-        <div></div>
-      )
       }
 
     </div>

@@ -4,12 +4,9 @@ import ContactItem from "./ContactItem";
 import Avatar from "./Avatar";
 
 
-export default function CreateGroupChat(setChat , setBtn) {
+export default function CreateGroupChat({setChat , setBtn} ) {
 
     const [chatName,setChatName] = useState('');
-    const handleConfirm = () => {
-        console.log(chatName);
-    }
 
     return (
         <div className="wrapper">
@@ -34,8 +31,8 @@ export default function CreateGroupChat(setChat , setBtn) {
                 </div>
             </div>
             <div className="bottom">
-                <button className="button" onClick={() => {  }}>Cancel</button>
-                <button className="button" onClick={() => {handleConfirm()}}>Confirm</button>
+                <button className="button" onClick={() => { setBtn(false);setChat(false); }}>Cancel</button>
+                <button className="button" onClick={() => { setBtn(false);setChat(false); }}>Confirm</button>
             </div>
         </div>
     );
