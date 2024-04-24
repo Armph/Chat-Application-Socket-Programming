@@ -4,6 +4,7 @@ const { join } = require('node:path');
 const { Server } = require('socket.io');
 const path = require('path');
 const cors = require('cors');
+const { group } = require('node:console');
 
 const app = express();
 const server = createServer(app);
@@ -12,7 +13,7 @@ const io = require('socket.io')(server, {cors: {origin: "*"}});
 app.use(cors());
 
 const clients = {};
-const groups = [];
+const groups = {};
 const messages = {};
 /*
 messages Schema {
@@ -21,6 +22,14 @@ messages Schema {
             from: socketId,
             msg: message
         }
+    }
+}
+*/
+/*
+groups Schema {
+    groupName: {
+        from: socketId,
+        msg: message
     }
 }
 */
@@ -58,7 +67,6 @@ io.on('connection', (socket) => {
         if (socket.id !== payload.to) {
             messages[socket.id][payload.to].push({from: socket.id, msg: payload.msg});
         }
-        console.log("messages:", messages[payload.to]);
         io.to(payload.to).emit('private message', messages[payload.to]);
         io.to(socket.id).emit('private message', messages[socket.id]);
     });
@@ -69,16 +77,25 @@ io.on('connection', (socket) => {
         }
         io.emit('chat message', clients[socket.id] + ': ' + msg);
     });
-    socket.on('create group', (msg) => {
-        socket.join(msg.name);
-        groups.append(msg.name);
-        io.broadcast.emit('group list', groups);
+    socket.on('create group', (groupName) => {
+        socket.join(groupName);
+        groups[groupName] = [];
+        io.emit('group list', Object(groups));
     })
-
-    socket.on('join group', (msg) => {
-        socket.join(msg.name);
+    socket.on('join group', (groupName) => {
+        socket.join(groupName);
+        if (groups[groupName] === undefined) {
+            groups[groupName] = [];
+        }
+        io.to(socket.id).emit('group message', groups[groupName]);
     })
-
+    socket.on('group message', (payload) => {
+        if (groups[payload.to] === undefined) {
+            groups[payload.to] = [];
+        }
+        groups[payload.to].push({from: socket.id, msg: payload.msg});
+        io.to(payload.to).emit('private message', groups);
+    });
     socket.on('test', (msg) => {
         console.log(msg);
     });
