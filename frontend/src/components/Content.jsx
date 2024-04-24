@@ -10,7 +10,7 @@ import JoinRoom from "./JoinRoom";
 
 
 
-export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg, isPrivate }) {
+export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg, createGroupChat, sendGroupMessage, isPrivate }) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
@@ -50,6 +50,15 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
     setSavedText(text);
   }
 
+  function handleSubmit() {
+    if (selectedChat.length <= 19) {
+      sendGroupMessage(text);
+    } else {
+      sendPrivateMessage(text);
+    }
+    setText('');
+  }
+
   return (
     <div className={chat ? "content active" : "content"}>
       {/* {!btn && !chat ? (
@@ -62,7 +71,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
         )
       }
       {btn && !chat? (
-        <CreateGroupChat setChat={setChat} setBtn={setBtn}/>
+        <CreateGroupChat setChat={setChat} setBtn={setBtn} createGroupChat={createGroupChat} />
       ) : (
         <div></div>
       )
@@ -115,7 +124,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
           </div>
           <div className="bottom">
             <textarea placeholder="Write a message" value={text} onChange={(e) => setText(e.target.value)}/>
-            <div className="app-icon" onClick={() => {sendPrivateMessage(text); setText('')}}>
+            <div className="app-icon" onClick={() => {handleSubmit();}}>
               <i className="fa-solid fa-paper-plane"></i>
             </div>
           </div>

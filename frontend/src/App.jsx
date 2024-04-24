@@ -13,6 +13,7 @@ const socket = io(ENDPOINT);
 
 export default function App() {
   const [users, setUsers] = useState({});
+  const [groups, setGroups] = useState({});
   const [myName, setMyName] = useState('Anonymous');
   const [chatMsg, setChatMsg] = useState({});
   const [selectedChat, setSelectedChat] = useState(null);
@@ -28,6 +29,11 @@ export default function App() {
     setSelectedDestName(users[socketId]);
   }
 
+  function setSelectedGroupChatRoom(groupName) {
+    setSelectedChat(groupName);
+    setSelectedDestName(groupName);
+  }
+
   function sendPrivateMessage(msg) {
     const payload = {
       to: selectedChat,
@@ -36,7 +42,20 @@ export default function App() {
     socket.emit('private message', payload);
   }
 
+  function createGroupChat(groupName) {
+    socket.emit('create group', groupName);
+  }
+
+  function sendGroupMessage(msg) {
+    const payload = {
+      to: selectedChat,
+      msg: msg
+    };
+    socket.emit('group message', payload);
+  }
+
   useEffect(() => {
+    socket.emit('create group', 'General');
     socket.on('user connected', (usersObj) => {
       setUsers(usersObj);
     });
@@ -46,12 +65,15 @@ export default function App() {
     socket.on('private message', (msg) => {
       setChatMsg(msg);
     });
+    socket.on('group list', (groupsObj) => {
+      setGroups(groupsObj);
+    });
   }, []);
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} />} />
+        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} setSelectedGroupChatRoom={setSelectedGroupChatRoom} groups={groups} createGroupChat={createGroupChat} sendGroupMessage={sendGroupMessage} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

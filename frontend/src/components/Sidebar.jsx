@@ -7,7 +7,7 @@ import ContactItem from "./ContactItem";
 import Profile from "./Profile";
 
 
-export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom , toPrivate, dontPrivate}) {
+export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom, setSelectedGroupChatRoom, groups , toPrivate, dontPrivate}) {
 
   const [newChat, setNewChat] = useState(false);
   const [onProfile, setOnProfile] = useState(false);
@@ -48,9 +48,11 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, us
         </div>
         <div className="scroll-container">
           <div className="scroll-content" onClick={() => {dontPrivate()}}>
-              {[...Array(7)].map((contact, index) => (
-                 <ChatItem setChat={setChat} key={index} toPrivate={toPrivate} dontPrivate={dontPrivate} />
-              ))}
+              {//groups is obj
+                Object.keys(groups).map((groupName, l) => (
+                  <ChatItem setChat={setChat} setBtn={setBtn} key={groupName} name={groupName} setSelectedChatRoom={setSelectedGroupChatRoom} socketId={groupName} toPrivate={toPrivate} dontPrivate={dontPrivate} />
+                ))
+              }
           </div>
         </div>
         <div className="bottom">
