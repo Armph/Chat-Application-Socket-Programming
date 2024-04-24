@@ -54,6 +54,12 @@ export default function App() {
     socket.emit('group message', payload);
   }
 
+  function joinGroupChat(groupName) {
+    socket.emit('join group', groupName);
+    setSelectedChat(groupName);
+    setSelectedDestName(groupName);
+  }
+
   useEffect(() => {
     socket.emit('create group', 'General');
     socket.on('user connected', (usersObj) => {
@@ -73,7 +79,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} setSelectedGroupChatRoom={setSelectedGroupChatRoom} groups={groups} createGroupChat={createGroupChat} sendGroupMessage={sendGroupMessage} />} />
+        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} setSelectedGroupChatRoom={setSelectedGroupChatRoom} groups={groups} createGroupChat={createGroupChat} sendGroupMessage={sendGroupMessage} joinGroupChat={joinGroupChat} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

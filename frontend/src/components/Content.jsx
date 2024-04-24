@@ -10,7 +10,7 @@ import JoinRoom from "./JoinRoom";
 
 
 
-export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg, createGroupChat, sendGroupMessage, isPrivate }) {
+export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg, createGroupChat, sendGroupMessage, isPrivate, joinGroupChat, myName }) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
@@ -80,7 +80,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
         <div className="wrapper">
           <div className="top">
             <Avatar username={selectedDestName} height={45} width={45} />
-            {isPrivate ? null : <button className="button">Join room</button>}
+            {isPrivate ? null : <button className="button" onClick={() => joinGroupChat(selectedChat)}>Join room</button>}
             <div
               className="app-icon menu-icon"
               onClick={() => setOnMenu((prev) => !prev)}
@@ -117,6 +117,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
                     openImageViewer={openImageViewer}
                     backgroundColor = {colors[currentColorIndex]}
                     fcolor = {font[currentFontIndex]}
+                    myName = {e.from}
                   />
                 ))}
               </div>

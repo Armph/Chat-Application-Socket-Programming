@@ -93,7 +93,10 @@ io.on('connection', (socket) => {
         if (groups[payload.to] === undefined) {
             groups[payload.to] = [];
         }
-        groups[payload.to].push({from: socket.id, msg: payload.msg});
+        if (socket.rooms.has(payload.to)) {
+            groups[payload.to].push({from: socket.id, msg: payload.msg});
+        }
+        //groups[payload.to].push({from: socket.id, msg: payload.msg});
         io.to(payload.to).emit('private message', groups);
     });
     socket.on('test', (msg) => {
