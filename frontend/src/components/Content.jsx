@@ -18,11 +18,18 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
   const [text,setText] = useState('');
   const [savedText,setSavedText] = useState('');
   const colors = ['DarkSlateBlue', 'MediumAquaMarine', 'LightPink', 'salmon'];
+  const font = ['black','white','MediumSeaGreen','Maroon'];
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [currentFontIndex, setCurrentFontIndex] = useState(0);
 
   const handleColor = () => {
     const nextColorIndex = (currentColorIndex + 1) % colors.length;
     setCurrentColorIndex(nextColorIndex);
+  };
+
+  const handleFont = () => {
+    const nextFontIndex = (currentFontIndex + 1) % font.length;
+    setCurrentFontIndex(nextFontIndex);
   };
 
   const openImageViewer = (images) => {
@@ -87,6 +94,9 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
                   <span className="menu-item" onClick={() => handleColor()} >
                     Change colors
                   </span>
+                  <span className="menu-item" onClick={() => handleFont()} >
+                    Change font color
+                  </span>
                 </div>
               )}
             </div>
@@ -106,6 +116,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
                     msg={e.msg}
                     openImageViewer={openImageViewer}
                     backgroundColor = {colors[currentColorIndex]}
+                    fcolor = {font[currentFontIndex]}
                     myName = {e.from}
                   />
                 ))}
