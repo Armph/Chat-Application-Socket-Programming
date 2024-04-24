@@ -6,9 +6,11 @@ import { SeedMessages } from "../data/Messages";
 import ImageSlider from "./ImageSlider";
 import InfoContainer from "./InfoContainer";
 import CreateGroupChat from "./CreateGroupchat";
+import JoinRoom from "./JoinRoom";
 
 
-export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg }) {
+
+export default function Content({ chat, setChat, btn, setBtn, selectedChat, selectedDestName, socket, sendPrivateMessage, chatMsg, isPrivate }) {
   const [onMenu, setOnMenu] = useState(false);
   const [onViewer, setOnViewer] = useState(false);
   const [messages, setMessages] = useState(SeedMessages);
@@ -43,6 +45,10 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
 
   return (
     <div className={chat ? "content active" : "content"}>
+      {/* {!btn && !chat ? (
+        <InfoContainer/> ) : (
+          <JoinRoom setBtn={setBtn} setChat={setChat}/>
+        )} */}
       {!btn && !chat ? (
         <InfoContainer/> ) : (
           <div></div>
@@ -58,6 +64,7 @@ export default function Content({ chat, setChat, btn, setBtn, selectedChat, sele
         <div className="wrapper">
           <div className="top">
             <Avatar username={selectedDestName} height={45} width={45} />
+            {isPrivate ? null : <button className="button">Join room</button>}
             <div
               className="app-icon menu-icon"
               onClick={() => setOnMenu((prev) => !prev)}
