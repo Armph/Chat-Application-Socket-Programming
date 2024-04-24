@@ -8,7 +8,7 @@ import io from 'socket.io-client';
 import { Button } from "@mui/material";
 import { useState } from "react";
 
-const ENDPOINT = 'http://192.168.1.6:5000';
+const ENDPOINT = 'http://192.168.156.212:5000';
 const socket = io(ENDPOINT);
 
 export default function App() {
@@ -60,6 +60,12 @@ export default function App() {
     setSelectedDestName(groupName);
   }
 
+  function disconnectHandler() {
+    socket.disconnect();
+    setUsers({});
+    setGroups({});
+  }
+
   useEffect(() => {
     socket.emit('create group', 'General');
     socket.on('user connected', (usersObj) => {
@@ -79,7 +85,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} setSelectedGroupChatRoom={setSelectedGroupChatRoom} groups={groups} createGroupChat={createGroupChat} sendGroupMessage={sendGroupMessage} joinGroupChat={joinGroupChat} />} />
+        <Route path="/" element={<Messenger setName={setName} users={users} myName={myName} selectedChat={selectedChat} setSelectedChatRoom={setSelectedChatRoom} selectedDestName={selectedDestName} socket={socket.id} sendPrivateMessage={sendPrivateMessage} chatMsg={chatMsg} setSelectedGroupChatRoom={setSelectedGroupChatRoom} groups={groups} createGroupChat={createGroupChat} sendGroupMessage={sendGroupMessage} joinGroupChat={joinGroupChat} disconnectHandler={disconnectHandler} />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

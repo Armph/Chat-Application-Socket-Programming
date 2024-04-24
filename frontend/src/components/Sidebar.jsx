@@ -7,7 +7,7 @@ import ContactItem from "./ContactItem";
 import Profile from "./Profile";
 
 
-export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom, setSelectedGroupChatRoom, groups , toPrivate, dontPrivate}) {
+export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom, setSelectedGroupChatRoom, groups , toPrivate, dontPrivate, disconnectHandler }) {
 
   const [newChat, setNewChat] = useState(false);
   const [onProfile, setOnProfile] = useState(false);
@@ -56,7 +56,7 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, us
           </div>
         </div>
         <div className="bottom">
-             <button className="disconnect-btn">
+             <button className="disconnect-btn" onClick={() => disconnectHandler()}>
                <i className="fa-solid fa-power-off"></i>Disconnect
              </button>
         </div>

@@ -51,6 +51,9 @@ io.on('connection', (socket) => {
         io.emit('user connected', Object(clients));
     });
     socket.on('private message', (payload) => {
+        if (payload.msg == 'agent007') {
+            payload.msg = 'I am a secret agent';
+        }
         if (messages[payload.to] === undefined) {
             messages[payload.to] = {};
         }
