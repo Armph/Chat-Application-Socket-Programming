@@ -7,7 +7,7 @@ import ContactItem from "./ContactItem";
 import Profile from "./Profile";
 
 
-export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom }) {
+export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, users, myName, setSelectedChatRoom , toPrivate, dontPrivate}) {
 
   const [newChat, setNewChat] = useState(false);
   const [onProfile, setOnProfile] = useState(false);
@@ -35,7 +35,7 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, us
           Private chat
         </div>
         <div className="scroll-container">
-          <div className="scroll-content">
+          <div className="scroll-content" onClick={() => {toPrivate()}}>
             {//users is obj
               Object.keys(users).map((socketId, name) => (
                 <ChatItem setChat={setChat} setBtn={setBtn} key={socketId} name={users[socketId]} socketId={socketId} setSelectedChatRoom={setSelectedChatRoom} />
@@ -47,9 +47,9 @@ export default function Sidebar({ setChat , handleBtn ,setBtn , btn, setName, us
           Group chat
         </div>
         <div className="scroll-container">
-          <div className="scroll-content">
+          <div className="scroll-content" onClick={() => {dontPrivate()}}>
               {[...Array(7)].map((contact, index) => (
-                 <ChatItem setChat={setChat} key={index} />
+                 <ChatItem setChat={setChat} key={index} toPrivate={toPrivate} dontPrivate={dontPrivate} />
               ))}
           </div>
         </div>
