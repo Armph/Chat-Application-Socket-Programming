@@ -7,7 +7,6 @@ export default function Message({ owner, msg, backgroundColor}) {
       <div className="message-wrapper" style={{backgroundColor: backgroundColor}}>
         <p>{msg}</p>
       </div>
-      <span className="timeline">just now</span>
     </div>
   );
 }
